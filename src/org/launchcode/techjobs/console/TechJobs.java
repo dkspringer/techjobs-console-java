@@ -70,13 +70,13 @@ public class TechJobs {
     // ﻿Returns the key of the selected item from the choices Dictionary
     private static String getUserSelection(String menuHeader, HashMap<String, String> choices) {
 
-        Integer choiceIdx;
-        Boolean validChoice = false;
+        int choiceIdx;
+        boolean validChoice = false;
         String[] choiceKeys = new String[choices.size()];
 
         // Put the choices in an ordered structure so we can
         // associate an integer with each one
-        Integer i = 0;
+        int i = 0;
         for (String choiceKey : choices.keySet()) {
             choiceKeys[i] = choiceKey;
             i++;
@@ -87,9 +87,8 @@ public class TechJobs {
             System.out.println("\n" + menuHeader);
 
             // Print available choices
-            for (Integer j = 0; j < choiceKeys.length; j++) {
+            for (int j = 0; j < choiceKeys.length; j++)
                 System.out.println("" + j + " - " + choices.get(choiceKeys[j]));
-            }
 
             choiceIdx = in.nextInt();
             in.nextLine();
@@ -109,30 +108,23 @@ public class TechJobs {
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
 
-        System.out.println();
+        StringBuilder sb = new StringBuilder();
 
         // Sort list by name
-        Collections.sort(someJobs, new Comparator<HashMap<String, String>>() {
-            @Override
-            public int compare(HashMap<String, String> o1, HashMap<String, String> o2) {
-                return o1.get("name").compareTo(o2.get("name"));
-            }
-        });
+        Collections.sort(someJobs, ((o1, o2) -> o1.get("name").toLowerCase().compareTo(o2.get("name").toLowerCase())));
 
         if (someJobs.isEmpty()) {
-            System.out.println("***** No Jobs Found *****");
+            System.out.println("\n***** No Jobs Found *****");
             return;
         }
 
         for (HashMap<String, String> job : someJobs) {
-            String str = "*****\n";
-            for (String column : job.keySet()) {
-                str += column + ": " + job.get(column) + "\n";
-            }
-            str += "*****\n";
+            sb.append("\n*****\n");
+            for (String column : job.keySet())
+                sb.append(column).append(": ").append(job.get(column)).append("\n");
+            sb.append("*****\n");
 
-            System.out.println(str);
+            System.out.println(sb.toString());
         }
     }
-
 }
